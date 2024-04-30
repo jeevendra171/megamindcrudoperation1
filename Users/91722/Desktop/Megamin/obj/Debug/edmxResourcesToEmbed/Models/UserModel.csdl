@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MegaMindModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="tbl_UserInfo">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PhoneNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Agree" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserInfo">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PhoneNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Agree" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="MegaMindEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="tbl_UserInfo" EntityType="Self.tbl_UserInfo" />
+    <EntitySet Name="UserInfoes" EntityType="Self.UserInfo" />
+    <FunctionImport Name="DeleteEmployee">
+      <Parameter Name="UserId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="InsertUpdateUser">
+      <Parameter Name="UserId" Mode="In" Type="Int32" />
+      <Parameter Name="Name" Mode="In" Type="String" />
+      <Parameter Name="Email" Mode="In" Type="String" />
+      <Parameter Name="PhoneNo" Mode="In" Type="String" />
+      <Parameter Name="Address" Mode="In" Type="String" />
+      <Parameter Name="State" Mode="In" Type="String" />
+      <Parameter Name="City" Mode="In" Type="String" />
+      <Parameter Name="Agree" Mode="In" Type="Boolean" />
+      <Parameter Name="Action" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="InsertUser">
+      <Parameter Name="Name" Mode="In" Type="String" />
+      <Parameter Name="Email" Mode="In" Type="String" />
+      <Parameter Name="PhoneNo" Mode="In" Type="String" />
+      <Parameter Name="Address" Mode="In" Type="String" />
+      <Parameter Name="State" Mode="In" Type="String" />
+      <Parameter Name="City" Mode="In" Type="String" />
+      <Parameter Name="Agree" Mode="In" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="SelectUserInfo" ReturnType="Collection(MegaMindModel.SelectUserInfo_Result)" />
+    <FunctionImport Name="sp_DeleteUser">
+      <Parameter Name="UserId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_DeleteUserInfo">
+      <Parameter Name="UserId" Mode="In" Type="Int32" />
+      <Parameter Name="outputmessage" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_GetUserInfo" ReturnType="Collection(MegaMindModel.sp_GetUserInfo_Result)" />
+    <FunctionImport Name="sp_GetUserInfoById" ReturnType="Collection(MegaMindModel.sp_GetUserInfoById_Result)">
+      <Parameter Name="UserId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_InsertUserInfo" ReturnType="Collection(String)">
+      <Parameter Name="Name" Mode="In" Type="String" />
+      <Parameter Name="Email" Mode="In" Type="String" />
+      <Parameter Name="PhoneNo" Mode="In" Type="String" />
+      <Parameter Name="Address" Mode="In" Type="String" />
+      <Parameter Name="State" Mode="In" Type="String" />
+      <Parameter Name="City" Mode="In" Type="String" />
+      <Parameter Name="Agree" Mode="In" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="sp_UpdateUserInfo" ReturnType="Collection(String)">
+      <Parameter Name="UserId" Mode="In" Type="Int32" />
+      <Parameter Name="Name" Mode="In" Type="String" />
+      <Parameter Name="Email" Mode="In" Type="String" />
+      <Parameter Name="PhoneNo" Mode="In" Type="String" />
+      <Parameter Name="Address" Mode="In" Type="String" />
+      <Parameter Name="State" Mode="In" Type="String" />
+      <Parameter Name="City" Mode="In" Type="String" />
+      <Parameter Name="Agree" Mode="In" Type="Boolean" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="SelectUserInfo_Result">
+    <Property Type="Int32" Name="UserId" Nullable="false" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Email" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="PhoneNo" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="Address" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="State" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="City" Nullable="false" MaxLength="50" />
+    <Property Type="Boolean" Name="Agree" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="sp_GetUserInfo_Result">
+    <Property Type="Int32" Name="UserId" Nullable="false" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Email" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="PhoneNo" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="Address" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="State" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="City" Nullable="false" MaxLength="50" />
+    <Property Type="Boolean" Name="Agree" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="sp_GetUserInfoById_Result">
+    <Property Type="Int32" Name="UserId" Nullable="false" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="Email" Nullable="false" MaxLength="100" />
+    <Property Type="String" Name="PhoneNo" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="Address" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="State" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="City" Nullable="false" MaxLength="50" />
+    <Property Type="Boolean" Name="Agree" Nullable="false" />
+  </ComplexType>
+</Schema>

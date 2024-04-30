@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="MegaMindModelStoreContainer" CdmEntityContainer="MegaMindEntities2">
+    <EntitySetMapping Name="tbl_UserInfo">
+      <EntityTypeMapping TypeName="MegaMindModel.tbl_UserInfo">
+        <MappingFragment StoreEntitySet="tbl_UserInfo">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Agree" ColumnName="Agree" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="sp_DeleteUserInfos" FunctionName="MegaMindModel.Store.sp_DeleteUserInfos" />
+    <FunctionImportMapping FunctionImportName="sp_InsertUsers" FunctionName="MegaMindModel.Store.sp_InsertUsers" />
+    <FunctionImportMapping FunctionImportName="sp_UpdateUserInfos" FunctionName="MegaMindModel.Store.sp_UpdateUserInfos" />
+    <FunctionImportMapping FunctionImportName="sp_SelectUserInfos" FunctionName="MegaMindModel.Store.sp_SelectUserInfos">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MegaMindModel.sp_SelectUserInfos_Result">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Agree" ColumnName="Agree" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

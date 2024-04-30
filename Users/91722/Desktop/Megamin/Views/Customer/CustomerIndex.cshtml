@@ -1,0 +1,320 @@
+﻿@model MINDCRUD1.Models.tbl_UserInfo
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
+    <script type="text/javascript" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script>
+        $(function () {
+            $('#example1').DataTable();
+        })
+        function GetDetails(id) {
+            $.ajax({
+                url: "/Home/Edit/" + id,
+                typr: "GET",
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                success: function (response) {
+                    $('#Name').css('border-color', 'lightgrey');
+                    $('#Email').css('border-color', 'lightgrey');
+                    $('#PhoneNo').css('border-color', 'lightgrey');
+                    $('#Adress').css('border-color', 'lightgrey');
+                    $('#State').css('border-color', 'lightgrey');
+                    $('#Country').css('border-color', 'lightgrey');
+                    $('#Agree').css('border-color', 'lightgrey')
+                    $('#modal-Update').modal('show');
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+            return false;
+        }
+        $(document).ready(function () {
+            // Event listener for checkbox change
+            $('#Agree').change(function () {
+                // Check if checkbox is checked
+                if ($(this).is(':checked')) {
+                    // Enable submit button
+                    $('#submitButton').prop('disabled', false);
+                } else {
+                    // Disable submit button
+                    $('#submitButton').prop('disabled', true);
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            $('#State').change(function () {
+                var selectedState = $(this).val();
+                var cities = [];
+
+                // Populate cities based on selected state
+                if (selectedState === 'Gujarat') {
+                    cities = ["Surat", "Bardoli", "Baroda"];
+                } else if (selectedState === 'Maharashtra') {
+                    cities = ["Mumbai", "Pune"];
+                }
+
+                var cityDropdown = $('#City');
+                cityDropdown.empty();
+                $.each(cities, function (i, city) {
+                    cityDropdown.append($('<option></option>').val(city).html(city));
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">User List</h3>
+                    </div>
+
+                    <div class="box-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone Number</th>
+                                    <th>Address</th>
+                                    <th>State</th>
+                                    <th>City</th>
+                                    <th>Agree</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Customers)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(module => item.UserId)</td>
+                                        <td>@Html.DisplayFor(module => item.Name)</td>
+                                        <td>@Html.DisplayFor(module => item.Email)</td>
+                                        <td>@Html.DisplayFor(module => item.PhoneNo)</td> <!-- Corrected to PhoneNo -->
+                                        <!-- Corrected to Email -->
+                                        <td>@Html.DisplayFor(module => item.Address)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.State)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.City)</td>
+                                        <td>@Html.DisplayFor(module => item.Agree)</td>
+                                        <td>
+                                            <a onclick="GetDetails(@item.UserId)">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                            <a>
+                                                @Html.ActionLink(" ", "DeleteCustomer", "Customer", new { id = item.UserId }, new { onclick = "return confirm('Are sure wants to delete?');", @class = "fa fa-trash-o" })
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="modal fade" id="modal-mrole">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="box-title"> New User</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="box box-primary">
+                        @using (Html.BeginForm("InsertCustomer", "Customer", FormMethod.Post))
+                        {
+                            @*<div class="modal-body" style="height:200px">
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">User Name :</label>
+                                            <input type="text" class="form-control" id="rolename" name="Name" placeholder="Customer Name">
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Country</label>
+                                            <select class="form-control" name="Country">
+                                                <option value="0">Select Country</option>
+                                                <option value="United States">United States</option>
+                                                <option value="India">India</option>
+                                                <option value="France">France</option>
+                                                <option value="Russia">Russia</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>*@
+
+                            <div class="form-group">
+                                <label for="UserId">ID</label>
+                                <input type="text" class="form-control" id="UserId" placeholder="Id" disabled="disabled" />
+                            </div>
+                            <div class="form-group">
+                                <label for="Name">Name</label>
+                                <input type="text" class="form-control" id="Name" placeholder="Name" />
+                            </div>
+                            <div class="form-group">
+                                <label for="Email">Email</label>
+                                <input type="text" class="form-control" id="Email" placeholder="Email" />
+                            </div>
+                            <div class="form-group">
+                                <label for="PhoneNo">Phone No</label>
+                                <input type="text" class="form-control" id="PhoneNo" placeholder="PhoneNo" />
+                            </div>
+                            <div class="form-group">
+                                <label for="Address">Address</label>
+                                <input type="text" class="form-control" id="Address" placeholder="Address" />
+                            </div>
+                            <div class="form-group">
+                                <label for="State">State</label>
+                                <select class="form-control" id="State">
+                                    <option value="">Select State</option>
+                                    <option value="Gujarat">Gujarat</option>
+                                    <option value="Maharashtra">Maharashtra</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="City">City</label>
+                                <select class="form-control" id="City">
+                                    <option value="">Select City</option>
+                                </select>
+                            </div>
+                            @*<div class="form-group">
+                                    <label for="Country">Country</label>
+                                    <input type="text" class="form-control" id="Country" placeholder="Country" />
+                                </div>*@
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="Agree" />
+                                <label class="form-check-label" for="Agree">Agree</label>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal-Update">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="box-title"> Update User</h3>
+                </div>
+                <div class="modal-body" style="height:250px">
+                    <div class="box box-primary">
+                        @using (Html.BeginForm("UpdateCustomer", "Customer", FormMethod.Post))
+                        {
+                            @*<div class="modal-body">
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <input type="hidden" id="hfId" name="CustomerId">
+                                            <label for="exampleInputEmail1">Update Name :</label>
+                                            <input type="text" class="form-control" id="txtUpdateName" name="Name" placeholder="Customer Name">
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Country</label>
+                                            <select class="form-control" name="Country" id="ddlCountry">
+                                                <option value="0">Select Country</option>
+                                                <option value="United States">United States</option>
+                                                <option value="India">India</option>
+                                                <option value="France">France</option>
+                                                <option value="Russia">Russia</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>*@
+                            <div class="form-group">
+                                <label for="UserId">ID</label>
+                                <input type="text" class="form-control" id="UserId" placeholder="Id" disabled="disabled" />
+                            </div>
+                            <div class="form-group">
+                                <label for="Name">Name</label>
+                                <input type="text" class="form-control" id="Name" placeholder="Name" />
+                            </div>
+                            <div class="form-group">
+                                <label for="Email">Email</label>
+                                <input type="text" class="form-control" id="Email" placeholder="Email" />
+                            </div>
+                            <div class="form-group">
+                                <label for="PhoneNo">Phone No</label>
+                                <input type="text" class="form-control" id="PhoneNo" placeholder="PhoneNo" />
+                            </div>
+                            <div class="form-group">
+                                <label for="Address">Address</label>
+                                <input type="text" class="form-control" id="Address" placeholder="Address" />
+                            </div>
+                            <div class="form-group">
+                                <label for="State">State</label>
+                                <select class="form-control" id="State">
+                                    <option value="">Select State</option>
+                                    <option value="Gujarat">Gujarat</option>
+                                    <option value="Maharashtra">Maharashtra</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="City">City</label>
+                                <select class="form-control" id="City">
+                                    <option value="">Select City</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="Country">Country</label>
+                                <input type="text" class="form-control" id="Country" placeholder="Country" />
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="Agree" />
+                                <label class="form-check-label" for="Agree">Agree</label>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Update</button>
+                                <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#modal-mrole" style="margin-right:20px; ">
+        Add New User
+    </button>
+</body>
+</html>

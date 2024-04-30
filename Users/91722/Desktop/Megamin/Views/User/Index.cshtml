@@ -1,0 +1,386 @@
+﻿@model MINDCRUD1.Models.CustomerModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
+    <script type="text/javascript" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script>
+        $(document).ready(function () {
+            $('#example1').DataTable();
+
+            // Event listener for checkbox change
+            //$('#Agree').change(function () {
+            //    // Check if checkbox is checked
+            //    if ($(this).is(':checked')) {
+            //        // Enable submit button
+            //        $('#submitButton').prop('disabled', false);
+            //    } else {
+            //        // Disable submit button
+            //        $('#submitButton').prop('disabled', true);
+            //    }
+            //});
+
+            $(document).ready(function () {
+                // Initially disable the submit button
+                $('#submitButton').prop('disabled', true);
+
+                // Event listener for checkbox change
+                $('#Agree').change(function () {
+                    // Check if checkbox is checked
+                    if ($(this).is(':checked')) {
+                        // Enable submit button
+                        $('#submitButton').prop('disabled', false);
+                    } else {
+                        // Disable submit button
+                        $('#submitButton').prop('disabled', true);
+                    }
+                });
+            });
+
+            //$('#State').change(function () {
+            //    var selectedState = $(this).val();
+            //    var cities = [];
+
+            //    // Populate cities based on selected state
+            //    if (selectedState === 'Gujarat') {
+            //        cities = ["Surat", "Bardoli", "Baroda"];
+            //    } else if (selectedState === 'Maharashtra') {
+            //        cities = ["Mumbai", "Pune"];
+            //    }
+
+            //    var cityDropdown = $('#City');
+            //    cityDropdown.empty();
+            //    $.each(cities, function (i, city) {
+            //        cityDropdown.append($('<option></option>').val(city).html(city));
+            //    });
+            //});
+
+            //$(document).ready(function () {
+            //    $('#State').change(function () {
+            //        var selectedState = $(this).val();
+            //        var cities = [];
+
+            //        // Populate cities based on selected state
+            //        if (selectedState === 'Gujarat') {
+            //            cities = ["Surat", "Bardoli", "Baroda"];
+            //        } else if (selectedState === 'Maharashtra') {
+            //            cities = ["Mumbai", "Pune"];
+            //        }
+
+            //        var cityDropdown = $('#City');
+            //        cityDropdown.empty();
+            //        $.each(cities, function (i, city) {
+            //            cityDropdown.append($('<option></option>').val(city).html(city));
+            //        });
+            //    });
+            //});
+
+
+            $(document).ready(function () {
+                $('#State').change(function () {
+                    var selectedState = $(this).val();
+                    var cities = [];
+
+                    // Populate cities based on selected state
+                    if (selectedState === 'Gujarat') {
+                        cities = ["Surat", "Bardoli", "Baroda"];
+                    } else if (selectedState === 'Maharashtra') {
+                        cities = ["Mumbai", "Pune"];
+                    }
+
+                    var cityDropdown = $('#City');
+                    cityDropdown.empty();
+
+                    // Add default option
+
+                    cityDropdown.append($('<option></option>').val('').html('Select your city'));
+
+
+                    // Populate city dropdown with cities
+                    $.each(cities, function (i, city) {
+                        cityDropdown.append($('<option></option>').val(city).html(city));
+                    });
+                });
+
+                // Trigger change event to populate cities on page load
+                $('#State').trigger('change');
+            });
+
+
+        });
+
+        function editUser(userId) {
+    $.ajax({
+        url: '@Url.Action("Edit", "User")',
+        type: 'GET',
+        data: { id: userId },
+        success: function (data) {
+            console.log('Received data:', data);
+            $('#editUserModal input[name="UserId"]').val(data.UserId);
+            $('#editUserModal input[name="Name"]').val(data.Name);
+            $('#editUserModal input[name="Email"]').val(data.Email);
+            $('#editUserModal input[name="PhoneNo"]').val(data.PhoneNo);
+            $('#editUserModal input[name="Address"]').val(data.Address);
+            $('#editUserModal select[name="State"]').val(data.State);
+
+            // Update the city dropdown based on the selected state
+            var cities = [];
+            if (data.State === 'Gujarat') {
+                cities = ["Surat", "Bardoli", "Baroda"];
+            } else if (data.State === 'Maharashtra') {
+                cities = ["Mumbai", "Pune"];
+            }
+
+            var cityDropdown = $('#editUserModal select[name="City"]');
+            cityDropdown.empty();
+            $.each(cities, function (i, city) {
+                cityDropdown.append($('<option></option>').val(city).html(city));
+            });
+
+            $('#editUserModal select[name="City"]').val(data.City);
+            $('#editUserModal input[name="Agree"]').prop('checked', data.Agree);
+            $('#editUserModal').modal('show');
+        },
+        error: function (xhr, status, error) {
+            console.error('Error fetching user details:', error);
+            alert('Error occurred while fetching user details.');
+        }
+    });
+}
+
+
+        @*function editUser(userId) {
+            $.ajax({
+                url: '@Url.Action("Edit", "User")',
+                type: 'GET',
+                data: { id: userId },
+                success: function (data) {
+                    console.log('Received data:', data);
+                    $('#editUserModal input[name="UserId"]').val(data.UserId);
+                    $('#editUserModal input[name="Name"]').val(data.Name);
+                    $('#editUserModal input[name="Email"]').val(data.Email);
+                    $('#editUserModal input[name="PhoneNo"]').val(data.PhoneNo);
+                    $('#editUserModal input[name="Address"]').val(data.Address);
+                    $('#editUserModal select[name="State"]').val(data.State);
+                    $('#editUserModal select[name="City"]').val(data.City);
+                    $('#editUserModal input[name="Agree"]').prop('checked', data.Agree);
+                    $('#editUserModal').modal('show');
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching user details:', error);
+                    alert('Error occurred while fetching user details.');
+                }
+            });
+        }*@
+
+
+    </script>
+</head>
+<body>
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <button type="button" class="btn btn-primary pull-" data-toggle="modal" data-target="#modal-mrole" style="margin-right:20px; ">
+                        Add New User
+                    </button>
+                    <div class="box-header">
+                        <h3 class="box-title">User List</h3>
+                    </div>
+
+                    <div class="box-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone Number</th>
+                                    <th>Address</th>
+                                    <th>State</th>
+                                    <th>City</th>
+                                    <th>Agree</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Customers)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(module => item.UserId)</td>
+                                        <td>@Html.DisplayFor(module => item.Name)</td>
+                                        <td>@Html.DisplayFor(module => item.Email)</td>
+                                        <td>@Html.DisplayFor(module => item.PhoneNo)</td>
+                                        <td>@Html.DisplayFor(module => item.Address)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.State)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.City)</td>
+                                        <td>@Html.DisplayFor(module => item.Agree)</td>
+                                        <td>
+                                            <a href="#" onclick="editUser('@item.UserId')">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                            <a>
+                                                @Html.ActionLink(" ", "DeleteCustomer", "User", new { id = item.UserId }, new { onclick = "return confirm('Are sure wants to delete?');", @class = "fa fa-trash-o" })
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="modal fade" id="modal-mrole">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="box-title"> New User</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="box box-primary">
+                        @using (Html.BeginForm("InsertCustomer", "User", FormMethod.Post))
+                        {
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.UserId, "ID")
+                                @Html.TextBoxFor(model => model.UserId, new { @class = "form-control", placeholder = "Id", @disabled = "disabled" })
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Name, "Name")
+                                @Html.TextBoxFor(model => model.Name, new { @class = "form-control", placeholder = "Name" })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Email, "Email")
+                                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "Email" })
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PhoneNo, "Phone No")
+                                @Html.TextBoxFor(model => model.PhoneNo, new { @class = "form-control", placeholder = "PhoneNo" })
+                                @Html.ValidationMessageFor(model => model.PhoneNo, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Address, "Address")
+                                @Html.TextBoxFor(model => model.Address, new { @class = "form-control", placeholder = "Address" })
+                                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                            </div>
+                           
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.State, "State")
+
+                        @Html.DropDownListFor(model => model.State, new SelectList(new[] { "Select State", "Gujarat", "Maharashtra" }), new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                    </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.City, "City")
+                                @Html.DropDownListFor(model => model.City, new SelectList(new[] { "Select City" }), new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                            </div>
+
+
+                            <div class="form-check">
+                                @Html.CheckBoxFor(model => model.Agree, new { @class = "form-check-input", id = "Agree" })
+                                @Html.LabelFor(model => model.Agree, "Agree", new { @class = "form-check-label", id = "AgreeLabel" })
+                                @Html.ValidationMessageFor(model => model.Agree, "", new { @class = "text-danger" })
+                            </div>
+                            <div>
+                                @*<button type="submit" class="btn btn-success">Submit</button>*@
+                                <button type="submit" id="submitButton" class="btn btn-primary">Submit</button>
+                                <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @using (Html.BeginForm("UpdateCustomer", "User", FormMethod.Post, new { id = "updateForm" }))
+                    {
+                        @Html.HiddenFor(model => model.UserId)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Name)
+                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Email)
+                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PhoneNo)
+                            @Html.TextBoxFor(model => model.PhoneNo, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Address, "Address")
+                            @Html.TextBoxFor(model => model.Address, new { @class = "form-control", placeholder = "Address" })
+                        </div>
+                       
+
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.State, "State")
+                            @Html.DropDownListFor(model => model.State, new SelectList(new[] { "Select State", "Gujarat", "Maharashtra" }), new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.City, "City")
+                            @Html.DropDownListFor(model => model.City, new SelectList(new[] { "Select City" }), new { @class = "form-control" })
+                            
+                        </div>
+                        <div class="form-check">
+                            @Html.CheckBoxFor(model => model.Agree, new { @class = "form-check-input", id = "Agree" })
+                            @Html.LabelFor(model => model.Agree, "Agree", new { @class = "form-check-label", id = "AgreeLabel" })
+                        </div>
+                        @*<button type="submit" class="btn btn-success">Save Changes</button>*@
+                        <button type="submit" class="btn btn-primary" id="btnUpdate">Update</button>
+                        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div>
+        @if (!string.IsNullOrEmpty(ViewBag.Message))
+        {
+            <p>@ViewBag.Message</p>
+        }
+    </div>
+
+
+    <br />
+
+</body>
+</html>

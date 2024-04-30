@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="MegaMindModelStoreContainer" CdmEntityContainer="MegaMindEntities">
+    <EntitySetMapping Name="tbl_UserInfo">
+      <EntityTypeMapping TypeName="MegaMindModel.tbl_UserInfo">
+        <MappingFragment StoreEntitySet="tbl_UserInfo">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Agree" ColumnName="Agree" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserInfoes">
+      <EntityTypeMapping TypeName="MegaMindModel.UserInfo">
+        <MappingFragment StoreEntitySet="UserInfo">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Agree" ColumnName="Agree" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="DeleteEmployee" FunctionName="MegaMindModel.Store.DeleteEmployee" />
+    <FunctionImportMapping FunctionImportName="InsertUpdateUser" FunctionName="MegaMindModel.Store.InsertUpdateUser" />
+    <FunctionImportMapping FunctionImportName="InsertUser" FunctionName="MegaMindModel.Store.InsertUser" />
+    <FunctionImportMapping FunctionImportName="SelectUserInfo" FunctionName="MegaMindModel.Store.SelectUserInfo">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MegaMindModel.SelectUserInfo_Result">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Agree" ColumnName="Agree" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_DeleteUser" FunctionName="MegaMindModel.Store.sp_DeleteUser" />
+    <FunctionImportMapping FunctionImportName="sp_DeleteUserInfo" FunctionName="MegaMindModel.Store.sp_DeleteUserInfo" />
+    <FunctionImportMapping FunctionImportName="sp_GetUserInfo" FunctionName="MegaMindModel.Store.sp_GetUserInfo">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MegaMindModel.sp_GetUserInfo_Result">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Agree" ColumnName="Agree" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_GetUserInfoById" FunctionName="MegaMindModel.Store.sp_GetUserInfoById">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="MegaMindModel.sp_GetUserInfoById_Result">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Agree" ColumnName="Agree" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_InsertUserInfo" FunctionName="MegaMindModel.Store.sp_InsertUserInfo" />
+    <FunctionImportMapping FunctionImportName="sp_UpdateUserInfo" FunctionName="MegaMindModel.Store.sp_UpdateUserInfo" />
+  </EntityContainerMapping>
+</Mapping>
